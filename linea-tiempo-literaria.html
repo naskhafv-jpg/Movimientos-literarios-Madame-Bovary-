@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El péndulo de la literatura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF2F6; --surface:#FFFFFF; --ink:#1F2A44; --muted:#56607A;
+  --razon:#2B5C8A; --razon-soft:#DCE8F4;
+  --emocion:#A8356A; --emocion-soft:#F5DDE8;
+  --neutro:#5E6B3A; --neutro-soft:#E6EBD6;
+  --bovary:#F2C14E; --bovary-soft:#FDF3D6;
+  --line:#C5CEDB;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141A28; --surface:#1E2638; --ink:#E8ECF4; --muted:#A3ADC2;
+    --razon:#7FB0E0; --razon-soft:#22364F;
+    --emocion:#E688B3; --emocion-soft:#44243A;
+    --neutro:#B8C68E; --neutro-soft:#2F3624;
+    --bovary:#F2C14E; --bovary-soft:#3A3222;
+    --line:#34405A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141A28; --surface:#1E2638; --ink:#E8ECF4; --muted:#A3ADC2;
+  --razon:#7FB0E0; --razon-soft:#22364F;
+  --emocion:#E688B3; --emocion-soft:#44243A;
+  --neutro:#B8C68E; --neutro-soft:#2F3624;
+  --bovary:#F2C14E; --bovary-soft:#3A3222;
+  --line:#34405A;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:1.05rem;line-height:1.55}
+h1,h2,h3{font-family:"Bitter",Georgia,"Times New Roman",serif;line-height:1.15;margin:0}
+.wrap{max-width:1060px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+
+/* Encabezado */
+header{text-align:center;margin-bottom:2.5rem}
+header h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;letter-spacing:-.01em}
+header p{max-width:42rem;margin:1rem auto 0;color:var(--muted)}
+
+/* Péndulo */
+.pendulo{display:flex;justify-content:center;margin:1.75rem 0 .5rem}
+.pendulo svg{width:min(320px,80vw);height:auto}
+.brazo{transform-origin:160px 12px;animation:swing 3.2s ease-in-out infinite alternate}
+@keyframes swing{from{transform:rotate(26deg)}to{transform:rotate(-26deg)}}
+@media (prefers-reduced-motion:reduce){.brazo{animation:none}}
+.polos{display:flex;justify-content:space-between;max-width:560px;margin:0 auto;gap:1rem;font-weight:700}
+.polos span{flex:1;padding:.6rem .8rem;border-radius:10px;font-size:.95rem}
+.p-razon{background:var(--razon-soft);color:var(--razon);text-align:left}
+.p-emocion{background:var(--emocion-soft);color:var(--emocion);text-align:right}
+
+/* Línea del tiempo */
+.timeline{position:relative;margin-top:3rem}
+.timeline::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:4px;
+  background:var(--line);transform:translateX(-50%);border-radius:2px}
+.item{position:relative;display:grid;grid-template-columns:1fr 70px 1fr;align-items:start;margin-bottom:1.6rem}
+.dot{grid-column:2;justify-self:center;width:22px;height:22px;border-radius:50%;
+  border:4px solid var(--bg);margin-top:1.1rem;z-index:1}
+.card{background:var(--surface);border-radius:14px;padding:1.1rem 1.25rem;
+  border-top:6px solid var(--c);box-shadow:0 2px 0 var(--line)}
+.izq .card{grid-column:1;grid-row:1}
+.der .card{grid-column:3;grid-row:1}
+.centro{grid-template-columns:1fr}
+.centro .dot{grid-column:1}
+.centro .card{grid-column:1;max-width:560px;justify-self:center;width:100%}
+.izq{--c:var(--razon);--cs:var(--razon-soft)}
+.der{--c:var(--emocion);--cs:var(--emocion-soft)}
+.centro{--c:var(--neutro);--cs:var(--neutro-soft)}
+.dot{background:var(--c)}
+.fecha{font-weight:700;color:var(--c);font-size:.9rem}
+.card h3{font-size:1.45rem;margin:.15rem 0 .5rem}
+.contra{background:var(--cs);border-radius:8px;padding:.45rem .7rem;font-size:.95rem;margin:0}
+.contra b{color:var(--c)}
+button.mas{margin-top:.75rem;background:none;border:2px solid var(--c);color:var(--c);
+  font:inherit;font-weight:700;font-size:.9rem;padding:.35rem .9rem;border-radius:999px;cursor:pointer}
+button.mas:hover{background:var(--cs)}
+button:focus-visible{outline:3px solid var(--bovary);outline-offset:2px}
+.detalle{display:none;margin-top:.8rem;font-size:.97rem}
+.detalle.abierto{display:block}
+.detalle h4{margin:.6rem 0 .2rem;font-size:.95rem;color:var(--muted)}
+.detalle ul{margin:0;padding-left:1.1rem}
+.detalle li{margin-bottom:.2rem}
+.siglo{position:relative;text-align:center;margin:2.2rem 0 1.6rem}
+.siglo span{position:relative;z-index:1;background:var(--ink);color:var(--bg);
+  font-family:"Bitter",Georgia,serif;font-weight:700;padding:.3rem 1rem;border-radius:999px;font-size:.95rem}
+
+/* Madame Bovary */
+.bovary{grid-column:1 / -1;margin-top:1rem;background:var(--bovary-soft);
+  border:3px solid var(--bovary);border-radius:18px;padding:1.5rem 1.4rem;position:relative;z-index:1}
+.bovary h2{font-size:clamp(1.5rem,4vw,2.1rem)}
+.bovary .sub{color:var(--muted);margin:.35rem 0 1rem}
+.razones{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1rem}
+.razon{background:var(--surface);border-radius:12px;padding:.9rem 1rem}
+.razon .n{font-family:"Bitter",Georgia,serif;font-weight:800;font-size:1.6rem;color:var(--bovary);
+  -webkit-text-stroke:1px var(--ink);line-height:1}
+.razon h3{font-size:1.1rem;margin:.35rem 0 .3rem}
+.razon p{margin:0;font-size:.95rem}
+.choque{display:grid;grid-template-columns:1fr auto 1fr;gap:.8rem;align-items:center;margin:1.2rem 0 .4rem}
+.choque div{border-radius:12px;padding:.8rem 1rem;font-size:.95rem}
+.choque .suenio{background:var(--emocion-soft)}
+.choque .real{background:var(--razon-soft)}
+.choque .vs{font-family:"Bitter",Georgia,serif;font-weight:800;font-size:1.3rem}
+.choque b{display:block;margin-bottom:.2rem}
+
+/* Actividad */
+.quiz{margin-top:3.5rem;background:var(--surface);border-radius:18px;padding:1.6rem 1.4rem}
+.quiz h2{font-size:1.8rem;margin-bottom:.4rem}
+.quiz > p{color:var(--muted);margin-top:0}
+.preg{border-top:2px solid var(--line);padding:1rem 0}
+.preg p{margin:0 0 .6rem;font-weight:700}
+.ops{display:flex;flex-wrap:wrap;gap:.5rem}
+.ops button{font:inherit;font-size:.95rem;padding:.45rem .9rem;border-radius:10px;
+  border:2px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.ops button.ok{border-color:#2E8B57;background:#DFF3E7;color:#1D5E3A}
+.ops button.no{border-color:#C0392B;background:#F8E0DD;color:#8A2418}
+.fb{margin-top:.5rem;font-size:.95rem;min-height:1.2em}
+.puntaje{font-weight:700;margin-top:.8rem}
+
+@media (max-width:760px){
+  .timeline::before{left:14px}
+  .item,.centro{grid-template-columns:28px 1fr}
+  .dot,.centro .dot{grid-column:1;justify-self:start;margin-left:3px}
+  .izq .card,.der .card,.centro .card{grid-column:2;grid-row:1;max-width:none}
+  .siglo{text-align:left;padding-left:34px}
+  .bovary{grid-column:1 / -1}
+  .choque{grid-template-columns:1fr}
+  .choque .vs{text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>El péndulo de la literatura</h1>
+    <p>Cada movimiento literario reacciona contra el anterior. La historia de la literatura oscila como un péndulo entre dos polos: la razón y la realidad por un lado, la emoción y la imaginación por el otro.</p>
+    <div class="pendulo" aria-hidden="true">
+      <svg viewBox="0 0 320 170">
+        <line x1="40" y1="12" x2="280" y2="12" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        <g class="brazo">
+          <line x1="160" y1="12" x2="160" y2="130" stroke="currentColor" stroke-width="3"/>
+          <circle cx="160" cy="140" r="18" fill="#F2C14E" stroke="currentColor" stroke-width="3"/>
+        </g>
+      </svg>
+    </div>
+    <div class="polos">
+      <span class="p-razon">Razón, orden y realidad</span>
+      <span class="p-emocion">Emoción, libertad e imaginación</span>
+    </div>
+  </header>
+
+  <main class="timeline" id="timeline"></main>
+
+  <section class="quiz" aria-labelledby="quiz-t">
+    <h2 id="quiz-t">Ponete a prueba</h2>
+    <p>Elegí una respuesta en cada pregunta.</p>
+    <div id="preguntas"></div>
+    <p class="puntaje" id="puntaje"></p>
+  </section>
+</div>
+
+<script>
+const movimientos = [
+  {siglo:"Siglos XV al XVII"},
+  {n:"Renacimiento", f:"Siglos XV–XVI", lado:"izq",
+   contra:"la Edad Media, centrada en Dios",
+   rasgos:["El ser humano pasa al centro","Imitación de griegos y romanos","Armonía y equilibrio"],
+   autores:["Petrarca","Garcilaso de la Vega","Shakespeare, <i>Hamlet</i> (c. 1600)","Cervantes, <i>Don Quijote</i> (1605)"]},
+  {n:"Barroco", f:"Siglo XVII", lado:"der",
+   contra:"el equilibrio del Renacimiento",
+   rasgos:["Desengaño: la vida es breve","Contrastes fuertes y mucho adorno","Juegos de palabras e ingenio"],
+   autores:["Góngora","Quevedo","Calderón de la Barca, <i>La vida es sueño</i> (1635)","Sor Juana Inés de la Cruz"]},
+  {siglo:"Siglos XVIII y XIX"},
+  {n:"Neoclasicismo e Ilustración", f:"Siglo XVIII", lado:"izq",
+   contra:"los excesos del Barroco",
+   rasgos:["La razón como guía","Reglas claras y orden","La literatura debe enseñar"],
+   autores:["Voltaire, <i>Cándido</i> (1759)","Leandro F. de Moratín, <i>El sí de las niñas</i> (1806)"]},
+  {n:"Romanticismo", f:"1800–1850", lado:"der",
+   contra:"la razón fría del Neoclasicismo",
+   rasgos:["Sentimientos intensos y el yo","Libertad sin reglas","Naturaleza, lo exótico y lo idealizado"],
+   autores:["Goethe, <i>Werther</i> (1774, precursor)","Victor Hugo, <i>Los miserables</i> (1862)","Lord Byron","Bécquer, <i>Rimas</i> (1871)","Jorge Isaacs, <i>María</i> (1867)"]},
+  {n:"Realismo", f:"1850–1890", lado:"izq", bovary:true,
+   contra:"la idealización del Romanticismo",
+   rasgos:["Observar y retratar la realidad tal cual es","Vida cotidiana de la burguesía","Narrador objetivo que no juzga"],
+   autores:["Balzac (precursor)","Stendhal","<b>Flaubert, <i>Madame Bovary</i> (1857)</b>","Charles Dickens","Tolstói, <i>Ana Karénina</i> (1877)","Benito Pérez Galdós"]},
+  {n:"Naturalismo", f:"1870–1900", lado:"izq",
+   contra:"los límites del Realismo, al que lleva al extremo",
+   rasgos:["Método científico aplicado a la novela","Las personas están determinadas por la herencia y el ambiente","Muestra lo más duro de la sociedad"],
+   autores:["Émile Zola, <i>Germinal</i> (1885)","Emilia Pardo Bazán, <i>Los pazos de Ulloa</i> (1886)"]},
+  {n:"Simbolismo y Modernismo", f:"1857–1916", lado:"der",
+   contra:"el materialismo del Realismo y el Naturalismo",
+   rasgos:["Culto a la belleza","Musicalidad del lenguaje","Sugerir en vez de describir"],
+   autores:["Baudelaire, <i>Las flores del mal</i> (1857)","Verlaine y Rimbaud","José Martí","Rubén Darío, <i>Azul</i> (1888)"]},
+  {siglo:"Siglo XX y XXI"},
+  {n:"Vanguardias", f:"1909–1940", lado:"der",
+   contra:"toda la tradición anterior",
+   rasgos:["Romper con todo","Experimentar con la forma","Lo irracional y los sueños"],
+   autores:["Marinetti, Futurismo (1909)","Tzara, Dadaísmo (1916)","Breton, Surrealismo (1924)","Vicente Huidobro","César Vallejo, <i>Trilce</i> (1922)"]},
+  {n:"Novela moderna", f:"1915–1940", lado:"der",
+   contra:"la novela realista contada en orden",
+   rasgos:["Monólogo interior","Flujo de conciencia","El tiempo se siente, no se mide"],
+   autores:["Kafka, <i>La metamorfosis</i> (1915)","James Joyce, <i>Ulises</i> (1922)","Virginia Woolf"]},
+  {n:"Existencialismo", f:"1940–1960", lado:"izq",
+   contra:"el optimismo destruido por las guerras mundiales",
+   rasgos:["La vida puede parecer absurda","Angustia ante la libertad","Cada quien es responsable de sus actos"],
+   autores:["Jean-Paul Sartre, <i>La náusea</i> (1938)","Albert Camus, <i>El extranjero</i> (1942)"]},
+  {n:"Boom latinoamericano", f:"1960–1975", lado:"der",
+   contra:"el realismo regionalista tradicional",
+   rasgos:["Realismo mágico: lo fantástico es cotidiano","Experimentación con la estructura","Identidad latinoamericana"],
+   autores:["Julio Cortázar, <i>Rayuela</i> (1963)","Gabriel García Márquez, <i>Cien años de soledad</i> (1967)","Mario Vargas Llosa","Carlos Fuentes"]},
+  {n:"Posmodernismo", f:"1970 a hoy", lado:"centro",
+   contra:"la idea de una única verdad o un gran relato",
+   rasgos:["Fragmentos y mezcla de géneros","Ironía y juego","Historias que hablan de sí mismas"],
+   autores:["Borges (precursor)","Italo Calvino","Umberto Eco, <i>El nombre de la rosa</i> (1980)"]}
+];
+
+const bovaryHTML = `
+<section class="bovary" aria-labelledby="bov-t">
+  <h2 id="bov-t">Madame Bovary, el Realismo en acción</h2>
+  <p class="sub">Gustave Flaubert · por entregas en 1856, como libro en 1857 · subtítulo: <i>Costumbres de provincia</i></p>
+  <p>Emma Bovary es una joven que creció leyendo novelas románticas. Se casa con Charles, un médico de pueblo bueno pero aburrido, y espera que su vida sea tan apasionada como los libros. No lo es.</p>
+  <div class="choque">
+    <div class="suenio"><b>Lo que Emma sueña</b>Amor apasionado, lujo, aventura, París.</div>
+    <div class="vs" aria-hidden="true">vs.</div>
+    <div class="real"><b>Lo que Emma vive</b>Un pueblo pequeño, un esposo común, deudas y desilusión.</div>
+  </div>
+  <p>Ese choque es el Realismo respondiendo al Romanticismo dentro de una sola novela. De aquí viene la palabra <b>bovarismo</b>: imaginarse ser alguien que uno no es.</p>
+  <div class="razones">
+    <div class="razon"><div class="n">1</div><h3>Vida cotidiana</h3><p>No hay héroes ni castillos: es la vida de una familia común en pueblos de Normandía.</p></div>
+    <div class="razon"><div class="n">2</div><h3>Crítica al Romanticismo</h3><p>Las lecturas románticas de Emma la llevan a la ruina. La novela muestra lo peligroso de idealizar.</p></div>
+    <div class="razon"><div class="n">3</div><h3>Narrador objetivo</h3><p>Flaubert no opina ni da lecciones. Muestra lo que piensa Emma sin juzgarla.</p></div>
+    <div class="razon"><div class="n">4</div><h3>Detalle y observación</h3><p>Describe objetos, lugares y hasta la enfermedad de Emma con precisión casi científica.</p></div>
+    <div class="razon"><div class="n">5</div><h3>Tipos sociales</h3><p>Homais, el farmacéutico presumido, y Charles, el esposo mediocre, retratan a la burguesía de la época.</p></div>
+  </div>
+</section>`;
+
+const tl = document.getElementById("timeline");
+movimientos.forEach((m,i)=>{
+  if(m.siglo){
+    tl.insertAdjacentHTML("beforeend",`<div class="siglo"><span>${m.siglo}</span></div>`);
+    return;
+  }
+  const id = "d"+i;
+  tl.insertAdjacentHTML("beforeend",`
+  <div class="item ${m.lado}">
+    <span class="dot" aria-hidden="true"></span>
+    <article class="card">
+      <div class="fecha">${m.f}</div>
+      <h3>${m.n}</h3>
+      <p class="contra"><b>Reacciona contra</b> ${m.contra}</p>
+      <button class="mas" aria-expanded="false" aria-controls="${id}">Ver rasgos y autores</button>
+      <div class="detalle" id="${id}">
+        <h4>Rasgos</h4><ul>${m.rasgos.map(r=>`<li>${r}</li>`).join("")}</ul>
+        <h4>Autores y obras</h4><ul>${m.autores.map(a=>`<li>${a}</li>`).join("")}</ul>
+      </div>
+    </article>
+    ${m.bovary ? bovaryHTML : ""}
+  </div>`);
+});
+tl.addEventListener("click",e=>{
+  const b = e.target.closest("button.mas"); if(!b) return;
+  const d = document.getElementById(b.getAttribute("aria-controls"));
+  const abierto = d.classList.toggle("abierto");
+  b.setAttribute("aria-expanded",abierto);
+  b.textContent = abierto ? "Ocultar" : "Ver rasgos y autores";
+});
+
+const preguntas = [
+  {p:"¿Contra qué reacciona el Realismo?", ops:["El Barroco","El Romanticismo","Las Vanguardias"], ok:1,
+   ex:"El Realismo rechaza la idealización romántica y busca mostrar la vida tal como es."},
+  {p:"¿Por qué Emma Bovary termina desilusionada?", ops:["Porque vive en París","Porque espera que su vida sea como una novela romántica","Porque no sabe leer"], ok:1,
+   ex:"Sus lecturas románticas le crean expectativas que la realidad no cumple."},
+  {p:"¿Qué movimiento lleva el Realismo al extremo con el método científico?", ops:["Naturalismo","Modernismo","Existencialismo"], ok:0,
+   ex:"El Naturalismo de Zola estudia a las personas como si fueran un experimento."},
+  {p:"¿Hacia qué lado del péndulo se mueve el Romanticismo?", ops:["Razón y orden","Emoción y libertad"], ok:1,
+   ex:"El Romanticismo reacciona contra la razón neoclásica poniendo los sentimientos primero."},
+  {p:"¿Qué significa «bovarismo»?", ops:["Estudiar medicina","Imaginarse ser alguien que uno no es","Escribir sin reglas"], ok:1,
+   ex:"Viene de Emma Bovary, que vivía en un mundo imaginado."}
+];
+let aciertos=0, respondidas=0;
+const cont = document.getElementById("preguntas");
+preguntas.forEach((q,i)=>{
+  const div = document.createElement("div"); div.className="preg";
+  div.innerHTML = `<p>${i+1}. ${q.p}</p><div class="ops">${q.ops.map((o,j)=>`<button data-j="${j}">${o}</button>`).join("")}</div><div class="fb" aria-live="polite"></div>`;
+  div.querySelector(".ops").addEventListener("click",e=>{
+    const b = e.target.closest("button"); if(!b || div.dataset.hecho) return;
+    div.dataset.hecho = "1"; respondidas++;
+    const j = +b.dataset.j;
+    div.querySelectorAll(".ops button").forEach((x,k)=>{ if(k===q.ok) x.classList.add("ok"); });
+    if(j===q.ok){ aciertos++; div.querySelector(".fb").textContent = "¡Correcto! " + q.ex; }
+    else { b.classList.add("no"); div.querySelector(".fb").textContent = "No exactamente. " + q.ex; }
+    if(respondidas===preguntas.length)
+      document.getElementById("puntaje").textContent = `Resultado: ${aciertos} de ${preguntas.length}.`;
+  });
+  cont.appendChild(div);
+});
+</script>
+</body>
+</html>
